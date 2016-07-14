@@ -8,7 +8,7 @@
 using namespace std;
 
 // constant values
-const int kHeight = 40;
+const int kHeight = 30;
 const int kWidth = 80;
 const int kBin_num = kHeight;
 const string kChar = "*";
@@ -16,6 +16,7 @@ const string kChar = "*";
 // functions
 double GetMean   ( vector < double >& vval );
 double GetStdDev ( vector < double >& vval );
+double GetIntegral( vector < double >& vval );
 string GetWords  ( string word, int num );
 void GetContent  ( vector < double >& vval, vector < double >& vcenter, vector < int >& vcontent );
 
@@ -114,10 +115,7 @@ string GetWords( string word, int num )
 // return mean of vval
 double GetMean( vector < double >& vval )
 {
-  double sum = 0;
-  for( int i=0; i<vval.size(); i++ )
-    sum += vval[i];
-  return sum / vval.size();
+  return GetIntegral( vval ) / vval.size();
 }
 
 // return std. dev. of vval
@@ -132,6 +130,13 @@ double GetStdDev( vector < double >& vval )
   return sqrt( sum / vval.size() );
 }
 
+double GetIntegral( vector < double >& vval )
+{
+  double sum = 0;
+  for( int i=0; i<vval.size(); i++ )
+    sum += vval[i];
+  return sum;
+}
 // print header
 void PrintHeader()
 {
@@ -204,6 +209,11 @@ void PrintFooter( vector < double >& vval )
   cout << "  | " 
        << "Min       : " 
        << setw( width - 4 - 12) << setprecision(4) << *min_element( vval.begin(), vval.end() )
+       << " |"
+       << endl;
+  cout << "  | " 
+       << "Integral  : " 
+       << setw( width - 4 - 12) << setprecision(4) << GetIntegral( vval )
        << " |"
        << endl;
   cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
