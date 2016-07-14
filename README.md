@@ -1,4 +1,4 @@
-# hist
+# HistInTerminal
 
 A tool to show a histogram
 
@@ -12,7 +12,7 @@ You can edit "INSTALL_DIR" in Makefile to change the directory of installation.
 
 ## How To Use
 
-Usage: hist [ values ]
+Usage: hit [ values ]
 
 [ values ] can be separated by white space, \t and \n.
 
