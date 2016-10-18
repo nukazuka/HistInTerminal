@@ -188,32 +188,32 @@ void PrintFooter( vector < double >& vval )
   cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
   cout << "  | " 
        << "Entry     : " 
-       << setw( width - 6 - 12 ) << setprecision(6) << vval.size() 
+       << setw( width - 4 - 12 ) << setprecision(6) << vval.size() 
        << " |"
        << endl;
   cout << "  | " 
        << "Mean      : " 
-       << setw( width - 6 - 12 ) << setprecision(6) << GetMean( vval )
+       << setw( width - 4 - 12 ) << setprecision(6) << GetMean( vval )
        << " |"
        << endl;
   cout << "  | " 
        << "Std. Dev. : " 
-       << setw( width - 6 - 12) << setprecision(6) << GetStdDev( vval )
+       << setw( width - 4 - 12) << setprecision(6) << GetStdDev( vval )
        << " |"
        << endl;
   cout << "  | " 
        << "Max       : " 
-       << setw( width - 6 - 12) << setprecision(6) << *max_element( vval.begin(), vval.end() )
+       << setw( width - 4 - 12) << setprecision(6) << *max_element( vval.begin(), vval.end() )
        << " |"
        << endl;
   cout << "  | " 
        << "Min       : " 
-       << setw( width - 6 - 12) << setprecision(6) << *min_element( vval.begin(), vval.end() )
+       << setw( width - 4 - 12) << setprecision(6) << *min_element( vval.begin(), vval.end() )
        << " |"
        << endl;
   cout << "  | " 
        << "Integral  : " 
-       << setw( width - 6 - 12) << setprecision(6) << GetIntegral( vval )
+       << setw( width - 4 - 12) << setprecision(6) << GetIntegral( vval )
        << " |"
        << endl;
   cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
