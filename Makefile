@@ -4,7 +4,7 @@ INSTALL_DIR=~/bin
 TARGET = hit
 
 $(TARGET): main.cc
-	$(COMPILER) -o $(TARGET) main.cc
+	$(COMPILER) -O -O1 -O2 -o $(TARGET) main.cc
 
 
 all: $(TARGET)

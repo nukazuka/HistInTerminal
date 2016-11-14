@@ -92,7 +92,7 @@ void GetContent( vector < double >& vval, vector < double >& vcenter, vector < i
   for( int i=0 ; i<kBin_num ; i++, xi += bin_width )
     vcenter.push_back( xi + bin_width/2 );
 
-  // counter numbers and set the content of bin
+  // counte numbers and set the bin contents
   for( int i=0; i<vval.size(); i++ )
       for( int j=0; j<kBin_num; j++ )
 	  if( vval[i] >= vcenter[j] - bin_width/2 && vval[i] < vcenter[j] + bin_width/2 )
@@ -161,7 +161,8 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
       = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
 
   // print histogram
-  for( int i=0; i<kBin_num; i++ )
+  //  for( int i=0; i<kBin_num; i++ )
+  for( int i=0; i<kBin_num+1; i++ )
     {
       cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | " 
 	   << GetWords( kChar , vcontent_normalized[i] ) << " " 
