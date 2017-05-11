@@ -161,11 +161,10 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
       = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
 
   // print histogram
-  //  for( int i=0; i<kBin_num; i++ )
-  for( int i=0; i<kBin_num+1; i++ )
+  for( int i=0; i<kBin_num; i++ )
     {
       cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | " 
-	   << GetWords( kChar , vcontent_normalized[i] ) << " " 
+	   << GetWords( kChar , vcontent_normalized[i] ) << " "
 	   << vcontent[i]
 	   << endl;
     }
