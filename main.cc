@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
-
+#include <fstream>
 using namespace std;
 
 // constant values
@@ -23,6 +23,7 @@ void GetContent  ( vector < double >& vval, vector < double >& vcenter, vector <
 void PrintHeader ();
 void PrintHist   ( vector < double >& vcenter, vector < int >& vcontent );
 void PrintFooter ( vector < double >& vval );
+void ReadFile( string file, vector < double >& vval );
 
 int main( int argc, char* argv[] )
 {
@@ -37,26 +38,40 @@ int main( int argc, char* argv[] )
 
   // get values
   vector < double > vval;
-  // loop over arguments
-  for( int i=1; i<argc; i++ )
+
+  // check whether the first argument is filename or not
+  string first_argument = argv[1];
+  if( first_argument.find( ".dat" ) != string::npos ||
+      first_argument.find( ".txt" ) != string::npos )
     {
-
-      // conversion from char* to double
-      stringstream ss( argv[i] );
-      double val;
-      ss >> val;
-
-      // if argument is not number, skip this
-      if( ss.fail() )
-	{
-	  cout << argv[i] << " is skipped" << endl;
-	  continue;
-	}
-
-      // store value
-      vval.push_back( val );
+      cout << "Data file mode" << endl;     
+      ReadFile( first_argument, vval );
     }
-
+  else
+    {
+      cout << "Direct mode" << endl;
+      // loop over arguments
+      for( int i=1; i<argc; i++ )
+	{
+	  
+	  // conversion from char* to double
+	  stringstream ss( argv[i] );
+	  double val;
+	  ss >> val;
+	  
+	  // if argument is not number, skip this
+	  if( ss.fail() )
+	    {
+	      cout << argv[i] << " is skipped" << endl;
+	      continue;
+	    }
+	  
+	  // store value
+	  vval.push_back( val );
+	  cout << val << endl;
+	}
+    }
+  
   // if nothig is stored, stop the program
   if( vval.size() == 0 )
     {
@@ -87,6 +102,9 @@ void GetContent( vector < double >& vval, vector < double >& vcenter, vector < i
   double xmin = *min_element( vval.begin(), vval.end() );
   double bin_width = (xmax - xmin ) / (double)kBin_num;
 
+  if( bin_width == 0)
+    cout << " - No variation in given samples" << endl;
+  
   // calculate center of bins
   double xi = xmin;
   for( int i=0 ; i<kBin_num ; i++, xi += bin_width )
@@ -154,11 +172,20 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
   // normalize histogram
   // set the length of the longest bin to kWidth
   int max = *max_element( vcontent.begin(), vcontent.end() );
+  int min = *min_element( vcontent.begin(), vcontent.end() );
 
+  if( max - min == 0 )
+    return;
+  
   vector < int > vcontent_normalized( kBin_num );
   for( int i=0; i<vcontent.size(); i++ )
-    vcontent_normalized[i]
-      = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
+    {
+      if( vcontent[i] == 0 )
+	vcontent_normalized[i] = 0;
+      else
+	vcontent_normalized[i]
+	  = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
+    }
 
   // print histogram
   for( int i=0; i<kBin_num; i++ )
@@ -217,4 +244,31 @@ void PrintFooter( vector < double >& vval )
        << " |"
        << endl;
   cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
+}
+
+void ReadFile( string file, vector < double >& vval )
+{
+  ifstream ifs( file.c_str() );
+  if( ifs.fail() )
+    {
+      cerr << "==============================================" << endl;
+      cerr << file << " is not found" << endl;
+      cerr << "==============================================" << endl;
+    }
+
+  while( !ifs.eof() )
+    {
+      string stemp;
+      ifs >> stemp;
+      stringstream ss(stemp);
+      double dtemp;
+      ss >> dtemp;
+
+      if( ss.fail() )
+	{
+	  cerr << stemp << " is skipped" << endl;
+	  continue;
+	}
+      vval.push_back( dtemp );
+    }  
 }
