@@ -11,13 +11,12 @@ using namespace std;
 const int kHeight = 30;
 const int kWidth = 80;
 const int kBin_num = kHeight;
-const string kChar = "*";
+const char kChar = '*';
 
 // functions
 double GetMean   ( vector < double >& vval );
 double GetStdDev ( vector < double >& vval );
 double GetIntegral( vector < double >& vval );
-string GetWords  ( string word, int num );
 void GetContent  ( vector < double >& vval, vector < double >& vcenter, vector < int >& vcontent );
 
 void PrintHeader ();
@@ -121,15 +120,6 @@ void GetContent( vector < double >& vval, vector < double >& vcenter, vector < i
 
 }
 
-// return "word" * "num"
-string GetWords( string word, int num )
-{
-  string words = "";
-  for( int i=0; i<num; i++ )
-    words += word;
-  return words;
-}
-
 // return mean of vval
 double GetMean( vector < double >& vval )
 {
@@ -159,9 +149,9 @@ double GetIntegral( vector < double >& vval )
 void PrintHeader()
 {
   cout << "\n";
-  cout << "  " << GetWords( "=" , 11 ) << endl;
+  cout << "  " << string( 11, '=' ) << endl;
   cout << "   HISTOGRAM" << endl;
-  cout << "  " << GetWords( "=" , 11 ) << endl;
+  cout << "  " << string( 11, '=' ) << endl;
   cout << "\n";
 }
 
@@ -191,13 +181,13 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
   for( int i=0; i<kBin_num; i++ )
     {
       cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | " 
-	   << GetWords( kChar , vcontent_normalized[i] ) << " "
+	   << string( vcontent_normalized[i], kChar ) << " "
 	   << vcontent[i]
 	   << endl;
     }
 
   // print axis
-  cout << GetWords( "-" , 10 + 3 + kWidth -1) << ">" << endl;
+  cout << string( 10 + 3 + kWidth -1 , '-' ) << ">" << endl;
   cout << setw(10) << "Entries" 
        << setw(2) << 0 
        << setw( (10 + 3 + kWidth - 12 )/4) << 1 * max / 4
@@ -212,7 +202,7 @@ void PrintFooter( vector < double >& vval )
 {
 
   int width = kWidth / 2;
-  cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
+  cout << "  +" << string( width - 2 , '-' ) << "+" << endl;
   cout << "  | " 
        << "Entry     : " 
        << setw( width - 4 - 12 ) << setprecision(6) << vval.size() 
@@ -243,7 +233,7 @@ void PrintFooter( vector < double >& vval )
        << setw( width - 4 - 12) << setprecision(6) << GetIntegral( vval )
        << " |"
        << endl;
-  cout << "  +" << GetWords( "-" , width - 2 ) << "+" << endl;
+  cout << "  +" << string( width - 2 , '-' ) << "+" << endl;
 }
 
 void ReadFile( string file, vector < double >& vval )
