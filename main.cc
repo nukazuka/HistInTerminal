@@ -165,9 +165,9 @@ double GetIntegral( vector < double >& vval )
 void PrintHeader()
 {
   cout << "\n";
-  cout << "  " << string( 11 , '=' ) << endl;
+  cout << "  " << string( 11, '=' ) << endl;
   cout << "   HISTOGRAM" << endl;
-  cout << "  " << string( 11 , '=' ) << endl;
+  cout << "  " << string( 11, '=' ) << endl;
   cout << "\n";
 }
 
@@ -197,13 +197,13 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
   for( int i=0; i<kBin_num; i++ )
     {
       cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | " 
-	   << string( vcontent_normalized[i] , kChar ) << " "
+	   << string( vcontent_normalized[i], kChar ) << " "
 	   << vcontent[i]
 	   << endl;
     }
 
   // print axis
-  cout << string( 10 + 3 + kWidth - 1 , '=' ) << ">" << endl;
+  cout << string( 10 + 3 + kWidth -1 , '-' ) << ">" << endl;
   cout << setw(10) << "Entries" 
        << setw(2) << 0 
        << setw( (10 + 3 + kWidth - 12 )/4) << 1 * max / 4
