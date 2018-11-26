@@ -42,11 +42,11 @@ int main( int argc, char* argv[] )
   // check whether the first argument is filename or not
   string first_argument = argv[1];
   bool no_hist = false;
-  
+
   if( first_argument.find( ".dat" ) != string::npos ||
       first_argument.find( ".txt" ) != string::npos )
     {
-      cout << "Data file mode" << endl;     
+      cout << "Data file mode" << endl;
       ReadFile( first_argument, vval );
     }
   else
@@ -54,35 +54,34 @@ int main( int argc, char* argv[] )
 
       int first_index = 1;
       if( first_argument == "--no-hist" )
-	{
-	  no_hist = true;
-	  first_index++;
-	}
-      
+        {
+          no_hist = true;
+          first_index++;
+        }
+
 
       cout << "Direct mode" << endl;
       // loop over arguments
       for( int i=first_index; i<argc; i++ )
-	{
-	  
-	  // conversion from char* to double
-	  stringstream ss( argv[i] );
-	  double val;
-	  ss >> val;
-	  
-	  // if argument is not number, skip this
-	  if( ss.fail() )
-	    {
-	      cout << argv[i] << " is skipped" << endl;
-	      continue;
-	    }
-	  
-	  // store value
-	  vval.push_back( val );
-	  cout << val << endl;
-	}
+        {
+
+          // conversion from char* to double
+          stringstream ss( argv[i] );
+          double val;
+          ss >> val;
+
+          // if argument is not number, skip this
+          if( ss.fail() )
+            {
+              cout << argv[i] << " is skipped" << endl;
+              continue;
+            }
+
+          // store value
+          vval.push_back( val );
+        }
     }
-  
+
   // if nothig is stored, stop the program
   if( vval.size() == 0 )
     {
@@ -108,7 +107,7 @@ int main( int argc, char* argv[] )
   return 0;
 }
 
-// 
+//
 void GetContent( vector < double >& vval, vector < double >& vcenter, vector < int >& vcontent )
 {
 
@@ -119,7 +118,7 @@ void GetContent( vector < double >& vval, vector < double >& vcenter, vector < i
 
   if( bin_width == 0)
     cout << " - No variation in given samples" << endl;
-  
+
   // calculate center of bins
   double xi = xmin;
   for( int i=0 ; i<kBin_num ; i++, xi += bin_width )
@@ -127,13 +126,16 @@ void GetContent( vector < double >& vval, vector < double >& vcenter, vector < i
 
   // counte numbers and set the bin contents
   for( int i=0; i<vval.size(); i++ )
+    {
       for( int j=0; j<kBin_num; j++ )
-	  if( vval[i] >= vcenter[j] - bin_width/2 && vval[i] < vcenter[j] + bin_width/2 )
-	    {
-	      vcontent[j] += 1;
-	      continue;
-	    }
-
+        {
+          if( vval[i] >= vcenter[j] - bin_width/2 && vval[i] < vcenter[j] + bin_width/2 )
+            {
+              vcontent[j] += 1;
+              continue;
+            }
+        }
+    }
 }
 
 // return mean of vval
@@ -150,7 +152,7 @@ double GetStdDev( vector < double >& vval )
 
   for( int i=0; i<vval.size(); i++ )
     sum += pow(mean - vval[i] , 2 );
-  
+
   return sqrt( sum / vval.size() );
 }
 
@@ -182,30 +184,30 @@ void PrintHist( vector < double >& vcenter, vector < int >& vcontent )
 
   if( max - min == 0 )
     return;
-  
+
   vector < int > vcontent_normalized( kBin_num );
   for( int i=0; i<vcontent.size(); i++ )
     {
       if( vcontent[i] == 0 )
-	vcontent_normalized[i] = 0;
+        vcontent_normalized[i] = 0;
       else
-	vcontent_normalized[i]
-	  = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
+        vcontent_normalized[i]
+          = vcontent[i] * kWidth / *max_element( vcontent.begin(), vcontent.end() ) ;
     }
 
   // print histogram
   for( int i=0; i<kBin_num; i++ )
     {
-      cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | " 
-	   << string( vcontent_normalized[i], kChar ) << " "
-	   << vcontent[i]
-	   << endl;
+      cout << setw(10) << setprecision( 4 ) << vcenter[i] << " | "
+           << string( vcontent_normalized[i], kChar ) << " "
+           << vcontent[i]
+           << endl;
     }
 
   // print axis
   cout << string( 10 + 3 + kWidth -1 , '-' ) << ">" << endl;
-  cout << setw(10) << "Entries" 
-       << setw(2) << 0 
+  cout << setw(10) << "Entries"
+       << setw(2) << 0
        << setw( (10 + 3 + kWidth - 12 )/4) << 1 * max / 4
        << setw( (10 + 3 + kWidth - 12 )/4) << 2 * max / 4
        << setw( (10 + 3 + kWidth - 12 )/4) << 3 * max / 4
@@ -219,33 +221,33 @@ void PrintFooter( vector < double >& vval )
 
   int width = kWidth / 2;
   cout << "  +" << string( width - 2 , '-' ) << "+" << endl;
-  cout << "  | " 
-       << "Entry     : " 
-       << setw( width - 4 - 12 ) << setprecision(6) << vval.size() 
+  cout << "  | "
+       << "Entry     : "
+       << setw( width - 4 - 12 ) << setprecision(6) << vval.size()
        << " |"
        << endl;
-  cout << "  | " 
-       << "Mean      : " 
+  cout << "  | "
+       << "Mean      : "
        << setw( width - 4 - 12 ) << setprecision(6) << GetMean( vval )
        << " |"
        << endl;
-  cout << "  | " 
-       << "Std. Dev. : " 
+  cout << "  | "
+       << "Std. Dev. : "
        << setw( width - 4 - 12) << setprecision(6) << GetStdDev( vval )
        << " |"
        << endl;
-  cout << "  | " 
-       << "Max       : " 
+  cout << "  | "
+       << "Max       : "
        << setw( width - 4 - 12) << setprecision(6) << *max_element( vval.begin(), vval.end() )
        << " |"
        << endl;
-  cout << "  | " 
-       << "Min       : " 
+  cout << "  | "
+       << "Min       : "
        << setw( width - 4 - 12) << setprecision(6) << *min_element( vval.begin(), vval.end() )
        << " |"
        << endl;
-  cout << "  | " 
-       << "Integral  : " 
+  cout << "  | "
+       << "Integral  : "
        << setw( width - 4 - 12) << setprecision(6) << GetIntegral( vval )
        << " |"
        << endl;
@@ -271,10 +273,10 @@ void ReadFile( string file, vector < double >& vval )
       ss >> dtemp;
 
       if( ss.fail() )
-	{
-	  cerr << stemp << " is skipped" << endl;
-	  continue;
-	}
+        {
+          cerr << stemp << " is skipped" << endl;
+          continue;
+        }
       vval.push_back( dtemp );
-    }  
+    }
 }
