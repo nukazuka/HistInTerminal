@@ -262,12 +262,14 @@ void ReadFile( string file, vector < double >& vval )
       cerr << "==============================================" << endl;
       cerr << file << " is not found" << endl;
       cerr << "==============================================" << endl;
+      return;
     }
 
   while( !ifs.eof() )
     {
       string stemp;
       ifs >> stemp;
+
       stringstream ss(stemp);
       double dtemp;
       ss >> dtemp;
